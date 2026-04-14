@@ -58,11 +58,12 @@ int main(int argc, const char** argv)
   auto t1 = std::chrono::high_resolution_clock::now();
 
   //eliminated data dependency for clean reduction
+  #pragma omp target data map(tofrom: A[0:(imax+2)*(jmax+2)], Anew[0:(imax+2)*(jmax+2)])
   while ( error > tol && iter < iter_max )
   {
 
     error = 0.0;
- #pragma omp target teams distribute parallel for collapse(2) map(to: A[0:(imax+2)*(jmax+2)]) map(from: Anew[0:(imax+2)*(jmax+2)])
+  #pragma omp target teams distribute parallel for collapse(2)
   for (int j = 1; j < jmax+1; j++)
   {
     for (int i = 1; i < imax+1; i++)
@@ -71,7 +72,7 @@ int main(int argc, const char** argv)
     }
   }
 
- #pragma omp target teams distribute parallel for collapse(2) reduction(max:error) map(to: A[0:(imax+2)*(jmax+2)], Anew[0:(imax+2)*(jmax+2)])  
+#pragma omp target teams distribute parallel for collapse(2) reduction(max:error)
     for( int j = 1; j < jmax+1; j++ )
     {
       for( int i = 1; i < imax+1; i++)
@@ -80,7 +81,7 @@ int main(int argc, const char** argv)
       }
     }
 
-#pragma omp parallel for
+#pragma omp target teams distribute parallel for collapse(2)
     for( int j = 1; j < jmax+1; j++ )
     {
       for( int i = 1; i < imax+1; i++)
