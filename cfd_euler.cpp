@@ -23,16 +23,19 @@ const double CFL = 0.5;         // CFL number
 // ------------------------------------------------------------
 // Compute pressure from the conservative variables
 // ------------------------------------------------------------
+#pragma omp declare target
 double pressure(double rho, double rhou, double rhov, double E) {
     double u = rhou / rho;
     double v = rhov / rho;
     double kinetic = 0.5 * rho * (u * u + v * v);
     return (gamma_val - 1.0) * (E - kinetic);
 }
+#pragma omp end declare target
 
 // ------------------------------------------------------------
 // Compute flux in the x-direction
 // ------------------------------------------------------------
+#pragma omp declare target
 void fluxX(double rho, double rhou, double rhov, double E, 
            double& frho, double& frhou, double& frhov, double& fE) {
     double u = rhou / rho;
@@ -42,10 +45,12 @@ void fluxX(double rho, double rhou, double rhov, double E,
     frhov = rhov * u;
     fE = (E + p) * u;
 }
+#pragma omp end declare target
 
 // ------------------------------------------------------------
 // Compute flux in the y-direction
 // ------------------------------------------------------------
+#pragma omp declare target  
 void fluxY(double rho, double rhou, double rhov, double E,
            double& frho, double& frhou, double& frhov, double& fE) {
     double v = rhov / rho;
@@ -55,7 +60,7 @@ void fluxY(double rho, double rhou, double rhov, double E,
     frhov = rhov * v + p;
     fE = (E + p) * v;
 }
-
+#pragma omp end declare target
 // ------------------------------------------------------------
 // Main simulation routine
 // ------------------------------------------------------------
@@ -97,7 +102,7 @@ int main(){
     bool* solid = (bool*)malloc(total_size * sizeof(bool));
 
     // Remember to initialize if needed
-    #pragma omp target teams distribute parallel for
+    #pragma omp  parallel for
     for (int i = 0; i < total_size; i++) {
       rho[i] = 0.0;
       rhou[i] = 0.0;
@@ -123,7 +128,7 @@ int main(){
     const double E0 = p0/(gamma_val - 1.0) + 0.5*rho0*(u0*u0 + v0*v0);
 
     // ----- Initialize grid and obstacle mask -----
-    #pragma omp target teams distribute parallel for collapse(2)
+    #pragma omp  parallel for collapse(2)
     for (int i = 0; i < Nx+2; i++){
         for (int j = 0; j < Ny+2; j++){
             // Compute cell center coordinates
