@@ -1,0 +1,31 @@
+GPU Scaling Results
+===================
+
+Running Nx=200 Ny=100
+----------------------
+srun: job 13621955 queued and waiting for resources
+srun: job 13621955 has been allocated resources
+srun: error: x1001c0s3b0n1: task 0: Aborted (core dumped)
+srun: Terminating StepId=13621955.0
+
+Running Nx=800 Ny=400
+----------------------
+srun: job 13621956 queued and waiting for resources
+srun: job 13621956 has been allocated resources
+srun: error: x1001c0s3b0n1: task 0: Aborted (core dumped)
+srun: Terminating StepId=13621956.0
+
+Running Nx=1600 Ny=800
+----------------------
+srun: job 13621957 queued and waiting for resources
+srun: job 13621957 has been allocated resources
+srun: error: x1001c0s3b0n1: task 0: Aborted (core dumped)
+srun: Terminating StepId=13621957.0
+
+Running Nx=3200 Ny=1600
+----------------------
+srun: job 13621958 queued and waiting for resources
+srun: job 13621958 has been allocated resources
+srun: error: x1001c0s3b0n1: task 0: Aborted (core dumped)
+srun: Terminating StepId=13621958.0
+Done.
