@@ -18,10 +18,11 @@ int main(int argc, const char** argv)
   double pi  = 2.0 * asin(1.0);
   const double tol = 1.0e-6;
   double error     = 1.0;
-
-  double * A = new double[(imax+2) * (jmax+2)];
-  double * Anew = new double[(imax+2) * (jmax+2)];
-  memset(A, 0, (imax+2) * (jmax+2) * sizeof(double));
+  int size = (imax + 2) * (jmax + 2);
+  double * A = new double[size];
+  double * Anew = new double[size];
+  memset(A, 0, size * sizeof(double));
+  memset(Anew, 0, size * sizeof(double));
 
   // set boundary conditions
   for (int i = 0; i < imax+2; i++)
@@ -53,12 +54,12 @@ int main(int argc, const char** argv)
   for (int j = 1; j < jmax+2; j++)
     Anew[(j)*(imax+2)+0]   = sin(pi * j / (jmax+1));
 
-  for (int j = 1; j < jmax+2; j++)
-    Anew[(j)*(imax+2)+jmax+1] = sin(pi * j / (jmax+1))*expf(-pi);
+  for (int j = 0; j < jmax + 2; j++)
+    Anew[j * (imax + 2) + (imax + 1)] = sin(pi * j / (jmax + 1)) * exp(-pi);
   auto t1 = std::chrono::high_resolution_clock::now();
 
   //eliminated data dependency for clean reduction
-  #pragma omp target data map(tofrom: A[0:(imax+2)*(jmax+2)], Anew[0:(imax+2)*(jmax+2)])
+  #pragma omp target data map(tofrom: A[0:size], Anew[0:size])
   while ( error > tol && iter < iter_max )
   {
 
@@ -104,8 +105,31 @@ int main(int argc, const char** argv)
   else
     printf("This test is considered FAILED\n");
 
+
+  err_diff = fabs((100.0 * (error / 2.421354960840227e-03)) - 100.0);
+  printf("Total error is within %3.15E %% of the expected error\n", err_diff);
+
+  if (err_diff < 0.001)
+    printf("This run is considered PASSED\n");
+  else
+    printf("This test is considered FAILED\n");
+
   std::chrono::duration<double, std::milli> ms_double = t2 - t1;
-  std::cout << ms_double.count() << "ms\n";
+  double seconds = ms_double.count() / 1000.0;
+
+  std::cout << ms_double.count() << " ms\n";
+
+  // TODO: performance metric change - added achieved bandwidth calculation
+  // Rough application-level estimate: ~64 bytes per interior point per iteration
+  double points = (double)imax * (double)jmax;
+  double bytes_per_point = 64.0;
+  double total_bytes = (double)iter * points * bytes_per_point;
+  double bandwidth_gbs = total_bytes / seconds / 1.0e9;
+
+  printf("Achieved bandwidth: %f GB/s\n", bandwidth_gbs);
+  //TODO: cleanup
+  delete[] A;
+  delete[] Anew;
 
 
   return 0;

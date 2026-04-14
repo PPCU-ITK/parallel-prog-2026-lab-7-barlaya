@@ -1,0 +1,91 @@
+Generating SQLite file report1.sqlite from report1.nsys-rep
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/nvtx_sum.py]... 
+SKIPPED: report1.sqlite does not contain NV Tools Extension (NVTX) data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/osrt_sum.py]... 
+
+ ** OS Runtime Summary (osrt_sum):
+
+ Time (%)  Total Time (ns)  Num Calls    Avg (ns)       Med (ns)     Min (ns)    Max (ns)     StdDev (ns)            Name         
+ --------  ---------------  ---------  -------------  -------------  ---------  -----------  -------------  ----------------------
+     63.2    1,346,714,824          5  269,342,964.8  318,030,595.0  1,313,922  630,729,360  269,467,855.6  sem_wait              
+     21.5      458,941,595         19   24,154,820.8   10,069,630.0      5,270  100,167,108   32,523,924.6  poll                  
+     13.0      276,678,993        520      532,075.0       47,739.0      1,754   98,384,612    4,424,830.9  ioctl                 
+      1.1       22,889,943         11    2,080,903.9       67,085.0     30,156   21,175,574    6,342,193.9  sem_timedwait         
+      0.6       13,644,061         28      487,287.9       23,338.5      6,622   11,481,785    2,161,874.9  fopen                 
+      0.3        7,030,377         29      242,426.8       20,498.0     14,116    5,350,815      985,034.0  mmap64                
+      0.2        3,794,479          7      542,068.4      545,157.0    457,113      658,368       61,760.6  pthread_create        
+      0.0          773,164         47       16,450.3       10,740.0      6,572       65,743       11,737.8  open64                
+      0.0          640,175         19       33,693.4       27,351.0      5,500      212,586       45,817.8  mmap                  
+      0.0          318,935          1      318,935.0      318,935.0    318,935      318,935            0.0  fgets                 
+      0.0          176,523         22        8,023.8        5,215.0      3,276       29,966        7,095.5  fclose                
+      0.0          123,830          7       17,690.0       17,121.0      5,360       30,778        9,901.4  open                  
+      0.0          106,487         17        6,263.9        2,815.0      1,032       35,205        8,885.6  close                 
+      0.0           95,228          6       15,871.3       14,331.5      7,164       24,867        7,518.3  munmap                
+      0.0           93,454          4       23,363.5       23,909.5     17,152       28,483        5,415.6  pipe2                 
+      0.0           73,537         13        5,656.7        3,547.0      1,393       26,118        6,445.9  write                 
+      0.0           59,481          1       59,481.0       59,481.0     59,481       59,481            0.0  connect               
+      0.0           55,472         13        4,267.1        1,342.0      1,062       36,378        9,668.8  fcntl                 
+      0.0           53,801          2       26,900.5       26,900.5     22,432       31,369        6,319.4  socket                
+      0.0           45,545          2       22,772.5       22,772.5     14,287       31,258       12,000.3  fread                 
+      0.0           37,457         14        2,675.5        1,628.0      1,062        8,416        2,394.0  read                  
+      0.0           11,792          1       11,792.0       11,792.0     11,792       11,792            0.0  bind                  
+      0.0           10,459          2        5,229.5        5,229.5      2,174        8,285        4,321.1  fwrite                
+      0.0            6,783          4        1,695.8        1,798.0      1,293        1,894          273.8  pthread_cond_broadcast
+      0.0            3,556          2        1,778.0        1,778.0      1,322        2,234          644.9  dup                   
+      0.0            2,004          1        2,004.0        2,004.0      2,004        2,004            0.0  listen                
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/cuda_api_sum.py]... 
+SKIPPED: report1.sqlite does not contain CUDA trace data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+SKIPPED: report1.sqlite does not contain CUDA kernel data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/cuda_gpu_mem_time_sum.py]... 
+SKIPPED: report1.sqlite does not contain GPU memory data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/cuda_gpu_mem_size_sum.py]... 
+SKIPPED: report1.sqlite does not contain GPU memory data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/openmp_sum.py]... 
+SKIPPED: report1.sqlite does not contain OpenMP event data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/opengl_khr_range_sum.py]... 
+SKIPPED: report1.sqlite does not contain KHR Extension (KHR_DEBUG) data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/opengl_khr_gpu_range_sum.py]... 
+SKIPPED: report1.sqlite does not contain GPU KHR Extension (KHR_DEBUG) data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/vulkan_marker_sum.py]... 
+SKIPPED: report1.sqlite does not contain Vulkan Debug Extension (Vulkan Debug Util) data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/vulkan_gpu_marker_sum.py]... 
+SKIPPED: report1.sqlite does not contain GPU Vulkan Debug Extension (GPU Vulkan Debug markers) data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/dx11_pix_sum.py]... 
+SKIPPED: report1.sqlite does not contain DX11 CPU debug markers.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/dx12_gpu_marker_sum.py]... 
+SKIPPED: report1.sqlite does not contain DX12 GPU debug markers.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/dx12_pix_sum.py]... 
+SKIPPED: report1.sqlite does not contain DX12 CPU debug markers.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/wddm_queue_sum.py]... 
+SKIPPED: report1.sqlite does not contain WDDM context data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/um_sum.py]... 
+SKIPPED: report1.sqlite does not contain CUDA memory transfers data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/um_total_sum.py]... 
+SKIPPED: report1.sqlite does not contain CUDA memory transfers data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/um_cpu_page_faults_sum.py]... 
+SKIPPED: report1.sqlite does not contain CUDA Unified Memory CPU page faults data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/openacc_sum.py]... 
+SKIPPED: report1.sqlite does not contain OpenACC event data.
+
+Processing [report1.sqlite] with [/scratch/software/packages/nvhpc/26.1/Linux_x86_64/26.1/profilers/13.1/Nsight_Systems/host-linux-x64/reports/syscall_sum.py]... 
+SKIPPED: report1.sqlite does not contain syscall data.
+
