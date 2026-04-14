@@ -62,7 +62,7 @@ int main(int argc, const char** argv)
   {
 
     error = 0.0;
-  #pragma omp parallel for
+ #pragma omp target teams distribute parallel for collapse(2) map(to: A[0:(imax+2)*(jmax+2)]) map(from: Anew[0:(imax+2)*(jmax+2)])
   for (int j = 1; j < jmax+1; j++)
   {
     for (int i = 1; i < imax+1; i++)
@@ -71,7 +71,7 @@ int main(int argc, const char** argv)
     }
   }
 
-#pragma omp parallel for reduction(max:error)
+ #pragma omp target teams distribute parallel for collapse(2) reduction(max:error) map(to: A[0:(imax+2)*(jmax+2)], Anew[0:(imax+2)*(jmax+2)])  
     for( int j = 1; j < jmax+1; j++ )
     {
       for( int i = 1; i < imax+1; i++)
