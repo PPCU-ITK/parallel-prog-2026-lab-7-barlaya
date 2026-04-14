@@ -4,8 +4,7 @@ OUTFILE="euler_cpu_out.txt"
 echo "CPU Scaling Results" > $OUTFILE
 echo "===================" >> $OUTFILE
 
-# Compile once
-nvc++ -mp -Ofast euler2d.cpp -o euler_cpu >> $OUTFILE 2>&1
+module load nvhpc
 
 # Base sizes
 BASE_NX=200
@@ -24,9 +23,9 @@ do
     echo "----------------------" >> $OUTFILE
 
     # override constants at compile time
-    nvc++ -mp -Ofast euler2d.cpp -o euler_cpu \
+    nvc++ -mp -Ofast cfd_euler.cpp -o euler_cpu \
         -DNX_OVERRIDE=$NX -DNY_OVERRIDE=$NY >> $OUTFILE 2>&1
-
+    export OMP_NUM_THREADS=4
     srun -p cpu -c 4 --mem-per-cpu=2000 --time=00:05:00 \
         ./euler_cpu >> $OUTFILE 2>&1
 done

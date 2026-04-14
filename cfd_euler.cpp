@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <sstream>
 #include <omp.h>
+#include <chrono>
 
 using namespace std;
 /**
@@ -31,7 +32,6 @@ double pressure(double rho, double rhou, double rhov, double E) {
     return (gamma_val - 1.0) * (E - kinetic);
 }
 #pragma omp end declare target
-
 // ------------------------------------------------------------
 // Compute flux in the x-direction
 // ------------------------------------------------------------
@@ -50,7 +50,7 @@ void fluxX(double rho, double rhou, double rhov, double E,
 // ------------------------------------------------------------
 // Compute flux in the y-direction
 // ------------------------------------------------------------
-#pragma omp declare target  
+#pragma omp declare target
 void fluxY(double rho, double rhou, double rhov, double E,
            double& frho, double& frhou, double& frhov, double& fE) {
     double v = rhov / rho;
@@ -61,13 +61,14 @@ void fluxY(double rho, double rhou, double rhov, double E,
     fE = (E + p) * v;
 }
 #pragma omp end declare target
+
 // ------------------------------------------------------------
 // Main simulation routine
 // ------------------------------------------------------------
 int main(){
     // ----- Grid and domain parameters -----
     
-    /*
+   
     #ifndef NX_OVERRIDE
     #define NX_OVERRIDE 200
     #endif
@@ -78,9 +79,9 @@ int main(){
 
     const int Nx = NX_OVERRIDE;
     const int Ny = NY_OVERRIDE;
-    */
-    const int Nx = 200;         // Number of cells in x (excluding ghost cells)
-    const int Ny = 100;         // Number of cells in y
+    
+    //const int Nx = 200;         // Number of cells in x (excluding ghost cells)
+    //const int Ny = 100;         // Number of cells in y
     const double Lx = 2.0;      // Domain length in x
     const double Ly = 1.0;      // Domain length in y
     const double dx = Lx / Nx;
@@ -102,7 +103,7 @@ int main(){
     bool* solid = (bool*)malloc(total_size * sizeof(bool));
 
     // Remember to initialize if needed
-    #pragma omp  parallel for
+    #pragma omp parallel for
     for (int i = 0; i < total_size; i++) {
       rho[i] = 0.0;
       rhou[i] = 0.0;
@@ -128,7 +129,7 @@ int main(){
     const double E0 = p0/(gamma_val - 1.0) + 0.5*rho0*(u0*u0 + v0*v0);
 
     // ----- Initialize grid and obstacle mask -----
-    #pragma omp  parallel for collapse(2)
+    #pragma omp parallel for collapse(2)
     for (int i = 0; i < Nx+2; i++){
         for (int j = 0; j < Ny+2; j++){
             // Compute cell center coordinates
@@ -160,7 +161,8 @@ int main(){
     const int nSteps = 2000;
 
     // ----- Main time-stepping loop -----
-    // TODO: GPU data locality - keep arrays on device during all iterations
+    auto t1 = std::chrono::high_resolution_clock::now();
+     // TODO: GPU data locality - keep arrays on device during all iterations
     #pragma omp target data map(tofrom: rho[0:total_size], rhou[0:total_size], rhov[0:total_size], E[0:total_size], \
                                 rho_new[0:total_size], rhou_new[0:total_size], rhov_new[0:total_size], E_new[0:total_size], \
                                 solid[0:total_size])
@@ -278,6 +280,9 @@ int main(){
         }
     }
     } // End of target data region
+    auto t2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = t2 - t1;
+    cout << "Runtime: " << elapsed.count() << " s" << endl;
     //cleanclean shining clean
     free(rho);
     free(rhou);
@@ -291,4 +296,3 @@ int main(){
 
     return 0;
 }
-
